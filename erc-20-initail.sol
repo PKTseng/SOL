@@ -18,3 +18,24 @@ contract SimpleToken {
         balanceOf[msg.sender] = totalSupply;
     }
 }
+
+contract Crowdfunding {
+    address public beneficiary;
+    uint256 public fundingGoal;
+    uint256 public totalRaised;
+    mapping(address => uint256) public donations;
+
+    constructor(address _beneficiary, uint256 _fundingGoal) payable {
+        beneficiary = _beneficiary;
+        fundingGoal = _fundingGoal;
+
+        if (msg.value > 0) {
+            donations[msg.sender] = msg.value;
+            totalRaised = msg.value;
+
+            emit DonationsReceived(msg.sender, msg.value);
+        }
+    }
+
+    event DonationReceived( address , donor, uint256 amount)
+}
